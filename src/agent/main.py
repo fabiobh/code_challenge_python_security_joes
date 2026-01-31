@@ -164,7 +164,15 @@ async def main_loop():
     # Create the MCP client (connects to localhost:8000 by default)
     host = os.getenv("MCP_SERVER_HOST", "localhost")
     port = os.getenv("MCP_SERVER_PORT", "8000")
-    mcp_client = MCPClient(f"http://{host}:{port}")
+    
+    if host.startswith("http://") or host.startswith("https://"):
+        # If host includes protocol, use it as is (ignoring port env var)
+        base_url = host
+    else:
+        # Otherwise construct http URL with port
+        base_url = f"http://{host}:{port}"
+        
+    mcp_client = MCPClient(base_url)
     
     # Make sure the server is running
     if not await check_server_health(mcp_client):
