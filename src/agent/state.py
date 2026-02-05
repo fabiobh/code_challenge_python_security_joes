@@ -15,7 +15,6 @@ Each node gets the current state, does something, and returns the updated state.
 from typing import TypedDict, Annotated, Optional
 from langgraph.graph.message import add_messages
 
-
 class ToolCall(TypedDict):
     """
     Record of a single tool call made by the agent.

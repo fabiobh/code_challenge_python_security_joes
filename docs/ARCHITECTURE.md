@@ -17,7 +17,7 @@ This project implements a Model Context Protocol (MCP) HTTP server with three in
          ▼                                  ▼
 ┌──────────────────┐               ┌──────────────────┐
 │  Google Gemini   │               │  IPify, IP-API,  │
-│  1.5 Flash       │               │  Open-Meteo      │
+│  2.0 Flash       │               │  Open-Meteo      │
 └──────────────────┘               └──────────────────┘
 ```
 
