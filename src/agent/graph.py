@@ -90,6 +90,7 @@ def create_llm():
     Temperature is set to 0 for consistent, deterministic outputs.
     We don't want creativity here, just reliable tool calling.
     """
+    # Fetch the API key safely
     api_key = os.getenv("GOOGLE_API_KEY")
     if not api_key:
         raise ValueError("GOOGLE_API_KEY environment variable is required")
@@ -100,6 +101,7 @@ def create_llm():
         model="gemini-2.0-flash",
         google_api_key=api_key,
         temperature=0,
+        # Disable safety filters to prevent blocking of legitimate tool outputs
         safety_settings={
             HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
             HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
@@ -251,12 +253,14 @@ async def act_node(state: AgentState, mcp_client: MCPClient) -> AgentState:
     If the tool fails, we still add the error as a message.
     The LLM can then see the error and try something else.
     """
+    # Retrieve the tool execution details set by the Think node
     pending = state.get("pending_tool_call")
     if not pending:
         # This shouldn't happen, but handle it gracefully
         logger.error("Act node called but no pending tool call")
         return {**state, "current_step": "think"}
     
+    # Unpack the tool name and arguments
     tool_name = pending["tool"]
     params = pending.get("params", {})
     
@@ -448,6 +452,7 @@ async def run_agent(question: str, mcp_client: MCPClient) -> tuple[str, list[Too
     
     # Build and run the graph
     graph = build_agent_graph(mcp_client)
+    # Initialize the state with the user's input question
     initial_state = create_initial_state(question)
     
     # Run! This executes think→act→think→... until we hit END

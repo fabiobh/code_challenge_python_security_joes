@@ -21,8 +21,6 @@ set GOOGLE_API_KEY=your_api_key_here
 export GOOGLE_API_KEY=your_api_key_here
 ```
 
-Get your API key at: https://aistudio.google.com/app/apikey
-
 ### 3. Start the MCP Server
 
 ```bash
@@ -93,3 +91,13 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for:
 - LangGraph state & nodes
 - Tool-calling strategy
 - Assumptions & limitations
+
+# use local server
+set MCP_SERVER_HOST=localhost
+set MCP_SERVER_PORT=8000
+python -m src.agent.main
+
+# using render.com server - located on United States, Oregon
+set MCP_SERVER_HOST=https://mcp-weather-server-security-joes.onrender.com/
+set MCP_SERVER_PORT=443
+python -m src.agent.main
